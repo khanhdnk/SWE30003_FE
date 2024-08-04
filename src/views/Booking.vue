@@ -8,11 +8,10 @@
 <!--                <input type="datetime-local" id="endTime" v-model="endTime" class="form-control" required>-->
 <!--            </div>-->
             <div>
-                <h3>Current Booking Slot ID: <span>{{slotId}}</span></h3>
+                <p><strong>Current Booking Slot ID:</strong> <span>{{slotId}}</span></p>
             </div>
             <div class="form-group mb-3">
-                <label for="totalPrice" class="form-label">Total Price:</label>
-                <input type="number" id="totalPrice" v-model="totalPrice" class="form-control" required>
+                <p><strong>Charge:</strong> $10</p>
             </div>
 
 
@@ -28,7 +27,7 @@ const customerId = ref(0);
 const slotId = ref(0);
 const startTime = ref('');
 const endTime = ref('');
-const totalPrice = ref(0);
+const totalPrice = ref(10);
 const status = ref('PENDING');
 import { useAuthStore } from '@/store/auth';
 import {useRoute} from "vue-router";
@@ -59,7 +58,7 @@ const handleSubmit = async (event) => {
         if (response.code === 200) {
             alert(response.message);
             // You might want to reset form fields or redirect the user here
-            router.push('/list_booking')
+            router.push({ path: '/payment', query: { totalPrice: totalPrice.value } });
         } else {
             alert('Failed to create booking: ' + response.message);
         }

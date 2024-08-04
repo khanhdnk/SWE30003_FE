@@ -30,7 +30,7 @@
 <script setup>
 import { ref } from 'vue';
 
-const brandName = ref('ParkySlot');
+const brandName = ref('OSPS');
 const isNavbarOpen = ref(false);
 import {useAuthStore} from "@/store/auth.js";
 

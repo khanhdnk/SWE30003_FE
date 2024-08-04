@@ -55,7 +55,7 @@ onMounted(() => {
                                 <td>{{ slot.type }}</td>
                                 <td>{{ slot.status }}</td>
                                 <td>
-                                    <router-link :to="{ path: `/booking`, query: { slotId: slot.id } }" class="btn btn-primary">Book</router-link>
+                                    <router-link v-if="slot.status !== 'Occupied'" :to="{ path: `/booking`, query: { slotId: slot.id } }" class="btn btn-primary">Book</router-link>
                                 </td>
                             </tr>
                             <tr v-if="slots.length === 0">
