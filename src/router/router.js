@@ -10,10 +10,10 @@ import Dashboard from '@/views/Dashboard.vue';
 const routes = [
     { path: '/admin', component: Admin, name: 'admin' },
     {path:'/login', component: Login, name: 'login' },
-    {path:'/register', component: Register, name: 'register'},
-    {path: '/booking', component: Booking, name: 'booking'},
-    {path: '/payment', component: Payment, name: 'payment'},
-    { path: '/dashboard', component: Dashboard, name: 'dashboard' },
+    {path:'/register', component: Register, name: 'register', meta: { requiresAuth: true }},
+    {path: '/booking', component: Booking, name: 'booking', meta: { requiresAuth: true }},
+    {path: '/payment', component: Payment, name: 'payment', meta: { requiresAuth: true }},
+    { path: '/dashboard', component: Dashboard, name: 'dashboard', meta: { requiresAuth: true } },
 
 ];
 
@@ -22,13 +22,14 @@ const router = createRouter({
     routes,
 });
 
-const listOfUnprotectedRoutes = ['login', 'register'];
-
-// Navigation guard to protect routes
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, _, next) => {
     const authStore = useAuthStore();
-    if (!listOfUnprotectedRoutes.includes(to.name) && !authStore.isAuthenticated) {
-        next({ name: 'login' });
+    const isAuthenticated = authStore.isAuthenticated;
+
+    if (to.matched.some(record => record.meta.requiresAuth) && !isAuthenticated) {
+        next('/login');
+    } else if (to.name === 'login' && isAuthenticated) {
+        next('/dashboard');
     } else {
         next();
     }

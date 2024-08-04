@@ -1,7 +1,5 @@
 import { defineStore } from 'pinia';
 import axios from 'axios';
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
 
 export const useAuthStore = defineStore('auth', {
     state: () => ({
@@ -19,7 +17,6 @@ export const useAuthStore = defineStore('auth', {
     },
 
     actions: {
-        // Restore session data from localStorage on store initialization
         init() {
             const savedToken = localStorage.getItem('token');
             const savedUserId = localStorage.getItem('userId');
@@ -48,7 +45,6 @@ export const useAuthStore = defineStore('auth', {
             try {
                 const response = await axios.post('http://localhost:3000/user/register', payload);
                 console.log('Registration successful:', response.data);
-                this.router.push('/login');
             } catch (error) {
                 console.error('Registration failed:', error);
             }
@@ -79,7 +75,6 @@ export const useAuthStore = defineStore('auth', {
                 localStorage.setItem('role', this.role);
 
                 console.log('Login successful:', response.data.message);
-                this.router.push('/dashboard');
             } catch (error) {
                 console.error('Login failed:', error);
             }
@@ -94,19 +89,11 @@ export const useAuthStore = defineStore('auth', {
             this.isAuthenticated = false;
             this.userId = null;
 
-            // Clear session data from localStorage
             localStorage.removeItem('token');
             localStorage.removeItem('userId');
             localStorage.removeItem('name');
             localStorage.removeItem('email');
             localStorage.removeItem('role');
-
-            this.router.push('/login');
         },
-    },
-
-    setup() {
-        const router = useRouter();
-        return { router };
     },
 });
