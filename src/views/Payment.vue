@@ -30,6 +30,7 @@ onMounted(fetchInvoiceData);
 
 // Submit payment method
 const submitPayment = async (invoiceId, price) => {
+    console.log(price)
     if (!paymentMethod.value) {
         errorMessage.value = 'Payment method is required';
         return;
@@ -74,7 +75,7 @@ const submitPayment = async (invoiceId, price) => {
                     <p class="card-text"><strong>Total Price:</strong> ${{ invoice.totalPrice }}</p>
                     <p class="card-text"><strong>Status:</strong> {{ invoice.status }}</p>
 
-                    <div class="form-group mt-4">
+                    <div class="form-group mt-4" v-if="invoice.status !== 'Completed'">
                         <div class="form-group mt-4">
                             <label for="paymentMethod">Payment Method:</label>
                             <select
@@ -89,7 +90,7 @@ const submitPayment = async (invoiceId, price) => {
                             </select>
                         </div>
                     </div>
-                    <button class="btn btn-primary mt-3" @click="submitPayment(invoice.id)">Submit Payment</button>
+                    <button v-if="invoice.status !== 'Completed'" class="btn btn-primary mt-3" @click="submitPayment(invoice.id, invoice.totalPrice)">Submit Payment</button>
                 </div>
             </div>
         </div>
