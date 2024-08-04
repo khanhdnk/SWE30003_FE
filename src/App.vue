@@ -2,12 +2,7 @@
 </script>
 
 <template>
-    <v-app class="">
-        <v-main>
-
-            <router-view></router-view>
-        </v-main>
-    </v-app>
+    <router-view></router-view>
 </template>
 
 <style scoped>

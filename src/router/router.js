@@ -7,7 +7,7 @@ import Payment from "@/views/Payment.vue";
 import Admin from "@/views/Admin.vue";
 const routes = [
     { path: '/admin', component: Admin, name: 'admin' },
-    {path:'/login', component: Login, name: 'login'},
+    {path:'/login', component: Login, name: 'login' },
     {path:'/register', component: Register, name: 'register'},
     {path: '/booking', component: Booking, name: 'booking'},
     {path: '/payment', component: Payment, name: 'payment'},
@@ -19,15 +19,16 @@ const router = createRouter({
     routes,
 });
 
-const listOfUnprotectedRoutes = ['login', 'registration', 'home', 'market', 'feedback'];
+const listOfUnprotectedRoutes = ['login', 'register'];
 
-// router.beforeEach((to, from, next) => {
-//     const authStore = useAuthStore();
-//     if (!listOfUnprotectedRoutes.includes(to.name) && !authStore.isAuthenticated) {
-//         next({ name: 'login' });
-//     } else {
-//         next();
-//     }
-// });
+// Navigation guard to protect routes
+router.beforeEach((to, from, next) => {
+    const authStore = useAuthStore();
+    if (!listOfUnprotectedRoutes.includes(to.name) && !authStore.isAuthenticated) {
+        next({ name: 'login' });
+    } else {
+        next();
+    }
+});
 
 export default router;

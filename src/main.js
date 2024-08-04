@@ -3,6 +3,7 @@ import router from './router/router'
 import { createApp } from 'vue'
 import pinia from "@/store/index.js"
 import App from './App.vue'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 // Create the Vue app instance and configure it with router and Pinia
 const app = createApp(App);
