@@ -15,4 +15,11 @@ app.use(pinia);
 const authStore = useAuthStore();
 authStore.init();
 
+if (authStore.isAuthenticated) {
+    await router.push('/dashboard');
+} else {
+    await router.push('/login');
+}
+
+
 app.mount('#app');
