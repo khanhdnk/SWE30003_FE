@@ -1,3 +1,18 @@
+<script setup>
+import { useAuthStore } from '@/store/auth';
+import router from "@/router/router.js";
+
+const authStore = useAuthStore();
+
+// Initialize store state
+authStore.init();
+
+const handleLogin = async () => {
+    await authStore.login();
+    await router.push('/dashboard');
+};
+</script>
+
 <template>
     <div class="container mt-5">
         <div class="row justify-content-center">
@@ -50,16 +65,6 @@
         </div>
     </div>
 </template>
-
-<script setup>
-import { useAuthStore } from '../store/auth'
-
-const authStore = useAuthStore()
-
-const handleLogin = () => {
-    authStore.login()
-}
-</script>
 
 <style scoped>
 .container {

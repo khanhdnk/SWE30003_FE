@@ -1,10 +1,11 @@
 <script setup>
-import { useAuthStore } from '../store/auth'
+import { useAuthStore } from '@/store/auth';
 
-const authStore = useAuthStore()
+const authStore = useAuthStore();
 
-const handleRegister = () => {
-    authStore.register()
+const handleRegister = async () => {
+    await authStore.register()
+    await router.push('/dashboard');
 }
 </script>
 

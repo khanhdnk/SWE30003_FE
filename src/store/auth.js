@@ -1,67 +1,112 @@
-import { defineStore } from 'pinia'
-import axios from 'axios'
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { defineStore } from 'pinia';
+import axios from 'axios';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
-export const useAuthStore = defineStore('auth', () => {
-    const name = ref('')
-    const email = ref('')
-    const password = ref('')
-    const role = ref('customer')
-    const isAuthenticated = ref(false)
-    const token = ref('')
-    const userId = ref(null)
-    const router = useRouter()
+export const useAuthStore = defineStore('auth', {
+    state: () => ({
+        name: '',
+        email: '',
+        password: '',
+        role: 'customer',
+        isAuthenticated: false,
+        token: '',
+        userId: null,
+    }),
 
-    const register = async () => {
-        const payload = {
-            name: name.value,
-            email: email.value,
-            password: password.value,
-            role: role.value,
-        }
+    getters: {
+        isLoggedIn: (state) => state.isAuthenticated,
+    },
 
-        try {
-            const response = await axios.post('http://localhost:3000/user/register', payload)
-            console.log('Registration successful:', response.data)
-            await router.push('/login')
-        } catch (error) {
-            console.error('Registration failed:', error)
-        }
-    }
+    actions: {
+        // Restore session data from localStorage on store initialization
+        init() {
+            const savedToken = localStorage.getItem('token');
+            const savedUserId = localStorage.getItem('userId');
+            const savedName = localStorage.getItem('name');
+            const savedEmail = localStorage.getItem('email');
+            const savedRole = localStorage.getItem('role');
 
-    const login = async () => {
-        const payload = {
-            email: email.value,
-            password: password.value,
-        }
+            if (savedToken && savedUserId && savedName && savedEmail && savedRole) {
+                this.token = savedToken;
+                this.userId = Number(savedUserId);
+                this.name = savedName;
+                this.email = savedEmail;
+                this.role = savedRole;
+                this.isAuthenticated = true;
+            }
+        },
 
-        try {
-            const response = await axios.post('http://localhost:3000/user/login', payload)
-            const data = response.data.data
-            name.value = data.user.name
-            email.value = data.user.email
-            role.value = data.user.role
-            userId.value = data.user.id
-            token.value = data.token
-            isAuthenticated.value = true
-            console.log('Login successful:', response.data.message)
-            await router.push('/dashboard')
-        } catch (error) {
-            console.error('Login failed:', error)
-        }
-    }
+        async register() {
+            const payload = {
+                name: this.name,
+                email: this.email,
+                password: this.password,
+                role: this.role,
+            };
 
-    const logout = () => {
-        name.value = ''
-        email.value = ''
-        password.value = ''
-        role.value = 'customer'
-        token.value = ''
-        isAuthenticated.value = false
-        userId.value = null
-        router.push('/login')
-    }
+            try {
+                const response = await axios.post('http://localhost:3000/user/register', payload);
+                console.log('Registration successful:', response.data);
+                this.router.push('/login');
+            } catch (error) {
+                console.error('Registration failed:', error);
+            }
+        },
 
-    return { name, email, password, role, isAuthenticated, token, userId, register, login, logout }
-})
+        async login() {
+            const payload = {
+                email: this.email,
+                password: this.password,
+                role: this.role,
+            };
+
+            try {
+                const response = await axios.post('http://localhost:3000/user/login', payload);
+                const data = response.data.data;
+                this.name = data.user.name;
+                this.email = data.user.email;
+                this.role = data.user.role;
+                this.userId = data.user.id;
+                this.token = data.token;
+                this.isAuthenticated = true;
+
+                // Save session data to localStorage
+                localStorage.setItem('token', this.token);
+                localStorage.setItem('userId', String(this.userId));
+                localStorage.setItem('name', this.name);
+                localStorage.setItem('email', this.email);
+                localStorage.setItem('role', this.role);
+
+                console.log('Login successful:', response.data.message);
+                this.router.push('/dashboard');
+            } catch (error) {
+                console.error('Login failed:', error);
+            }
+        },
+
+        logout() {
+            this.name = '';
+            this.email = '';
+            this.password = '';
+            this.role = 'customer';
+            this.token = '';
+            this.isAuthenticated = false;
+            this.userId = null;
+
+            // Clear session data from localStorage
+            localStorage.removeItem('token');
+            localStorage.removeItem('userId');
+            localStorage.removeItem('name');
+            localStorage.removeItem('email');
+            localStorage.removeItem('role');
+
+            this.router.push('/login');
+        },
+    },
+
+    setup() {
+        const router = useRouter();
+        return { router };
+    },
+});
