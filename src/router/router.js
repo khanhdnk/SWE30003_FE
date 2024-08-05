@@ -11,7 +11,7 @@ import ListBooking from "@/views/ListBooking.vue";
 const routes = [
     { path: '/admin', component: Admin, name: 'admin' },
     {path:'/login', component: Login, name: 'login' },
-    {path:'/register', component: Register, name: 'register', meta: { requiresAuth: true }},
+    {path:'/register', component: Register, name: 'register'},
     {path: '/booking', component: Booking, name: 'booking', meta: { requiresAuth: true }},
     {path: '/list_booking', component: ListBooking, name: 'list_booking', meta: { requiresAuth: true }},
     {path: '/payment', component: Payment, name: 'payment', meta: { requiresAuth: true }},

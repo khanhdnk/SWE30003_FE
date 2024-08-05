@@ -32,42 +32,83 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card shadow-lg">
-                    <div class="card-header bg-primary text-white text-center">
-                        <h4>Parking Slots Dashboard</h4>
-                    </div>
-                    <div class="card-body">
-                        <table class="table table-striped">
-                            <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Type</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr v-for="slot in slots" :key="slot.id">
-                                <td>{{ slot.id }}</td>
-                                <td>{{ slot.type }}</td>
-                                <td>{{ slot.status }}</td>
-                                <td>
-                                    <router-link v-if="slot.status !== 'Occupied'" :to="{ path: `/booking`, query: { slotId: slot.id } }" class="btn btn-primary">Book</router-link>
-                                </td>
-                            </tr>
-                            <tr v-if="slots.length === 0">
-                                <td colspan="3" class="text-center">No parking slots available</td>
-                            </tr>
-                            </tbody>
-                        </table>
+    <div v-if="authStore.role === 'customer'">
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card shadow-lg">
+                        <div class="card-header bg-primary text-white text-center">
+                            <h4>Parking Slots Dashboard</h4>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Type</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr v-for="slot in slots" :key="slot.id">
+                                    <td>{{ slot.id }}</td>
+                                    <td>{{ slot.type }}</td>
+                                    <td>{{ slot.status }}</td>
+                                    <td>
+                                        <router-link v-if="slot.status !== 'Occupied'" :to="{ path: `/booking`, query: { slotId: slot.id } }" class="btn btn-primary">Book</router-link>
+                                    </td>
+                                </tr>
+                                <tr v-if="slots.length === 0">
+                                    <td colspan="4" class="text-center">No parking slots available</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <div v-else>
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card shadow-lg">
+                        <div class="card-header bg-primary text-white text-center">
+                            <h4>Parking Slots Dashboard</h4>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>IDff</th>
+                                    <th>Type</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr v-for="slot in slots" :key="slot.id">
+                                    <td>{{ slot.id }}</td>
+                                    <td>{{ slot.type }}</td>
+                                    <td>{{ slot.status }}</td>
+                                    <td>
+                                        <router-link v-if="slot.status !== 'Occupied'" :to="{ path: `/booking`, query: { slotId: slot.id } }" class="btn btn-primary">Book</router-link>
+                                    </td>
+                                </tr>
+                                <tr v-if="slots.length === 0">
+                                    <td colspan="4" class="text-center">No parking slots available</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </template>
 
 <style scoped>

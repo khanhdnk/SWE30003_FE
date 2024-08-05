@@ -5,7 +5,7 @@ const authStore = useAuthStore();
 
 const handleRegister = async () => {
     await authStore.register()
-    await router.push('/dashboard');
+    await router.push('/login');
 }
 </script>
 
