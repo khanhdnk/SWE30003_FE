@@ -7,6 +7,7 @@ import Payment from "@/views/Payment.vue";
 import Admin from "@/views/Admin.vue";
 import Dashboard from '@/views/Dashboard.vue';
 import ListBooking from "@/views/ListBooking.vue";
+import UpdateSlot from "@/views/UpdateSlot.vue";
 
 const routes = [
     { path: '/admin', component: Admin, name: 'admin' },
@@ -16,6 +17,7 @@ const routes = [
     {path: '/list_booking', component: ListBooking, name: 'list_booking', meta: { requiresAuth: true }},
     {path: '/payment', component: Payment, name: 'payment', meta: { requiresAuth: true }},
     { path: '/dashboard', component: Dashboard, name: 'dashboard', meta: { requiresAuth: true } },
+    {path: '/update_slot', component: UpdateSlot, meta: { requiresAuth: true }},
 
 ];
 

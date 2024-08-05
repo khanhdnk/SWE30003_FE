@@ -7,10 +7,13 @@
         <div :class="['collapse', 'navbar-collapse', { 'show': isNavbarOpen }]" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item active">
+                    <router-link to="/dashboard" class="nav-link">Dashboard</router-link>
+                </li>
+                <li class="nav-item">
                     <router-link to="/list_booking" class="nav-link">My Booking</router-link>
                 </li>
                 <li class="nav-item">
-                    <router-link to="/dashboard" class="nav-link">Dashboard</router-link>
+                    <router-link to="/payment" class="nav-link">My Invoices</router-link>
                 </li>
                 <li class="nav-item">
                     <router-link to="/login" class="nav-link">Login</router-link>
@@ -33,6 +36,7 @@ import { ref } from 'vue';
 const brandName = ref('OSPS');
 const isNavbarOpen = ref(false);
 import {useAuthStore} from "@/store/auth.js";
+import router from "@/router/router.js";
 
 const toggleNavbar = () => {
     isNavbarOpen.value = !isNavbarOpen.value;
@@ -41,6 +45,7 @@ const toggleNavbar = () => {
 function handleLogout(){
     // Clear the token from localStorage
     useAuthStore().logout();
+    router.push('/login');
 }
 </script>
 
