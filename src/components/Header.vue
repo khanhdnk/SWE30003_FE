@@ -22,6 +22,9 @@
                 <li class="nav-item">
                     <router-link to="/register" class="nav-link">Register</router-link>
                 </li>
+                <li class="nav-item">
+                    <router-link to="/admin" class="nav-link">Admin</router-link>
+                </li>
                 <li>
                     <div class="nav-link" @click="handleLogout">Logout</div>
                 </li>

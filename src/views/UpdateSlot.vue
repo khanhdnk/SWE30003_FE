@@ -35,7 +35,8 @@ async function handleUpdate(){
     }else {
 
         try {
-            const response = await axios.put(`http://localhost:3000/parkingslot/update/${slot.value.id}`, {
+            const response = await axios.post(`http://localhost:3000/parkingslot/update/`, {
+                id: parseInt(slot.value.id),
                 type: slotType.value,
                 status: slotStatus.value
             }, {
@@ -73,7 +74,7 @@ onMounted(async () => {
             <select v-model="slotType">
                 <option value="" disabled>Select Slot Type</option>
                 <option value="Car">Car</option>
-                <option value="Motorcycle">Motorcycle</option>
+                <option value="Motorbike">Motorbike</option>
             </select>
             <select v-model="slotStatus">
                 <option value="" disabled>Select Slot Status</option>
